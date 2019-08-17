@@ -54,7 +54,8 @@ ret, corners = cv2.findChessboardCorners(gray, (9,7),None)
 
 if ret == True:
     corners2 = cv2.cornerSubPix(gray,corners,(11,11),(-1,-1),criteria)
-
+    if np.linalg.norm(corners2[0,0,:]) > np.linalg.norm(corners2[62,0,:]):
+        corners2 = corners2[::-1,:,:]
     # Find the rotation and translation vectors.
     _,rvecs, tvecs, inliers = cv2.solvePnPRansac(objp, corners2, mtx, dist)
     # project 3D points to image plane
